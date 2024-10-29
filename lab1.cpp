@@ -123,7 +123,7 @@ int main()
         cin >> list[i];
     }
 
-   label:
+   back_to_home:
 
     cout << "what do you want" << endl;
     cout << "for search press 1\n for sort press" << endl;
@@ -152,7 +152,7 @@ int main()
             check(searchIndex, key);
             break;
         case 3:
-            goto label;
+            goto back_to_home;
             break;
 
         default:
@@ -177,16 +177,19 @@ int main()
           bubble_sorting(list, size);
           break;
         case 3:
+          goto back_to_home;
 
-
-        
         default:
+            cout<< "invaled input"<<endl;
             break;
         }
+    case 3:
+      return 0;
 
         break;
 
     default:
+      cout<< "invaled input"<<endl;
         break;
     }
 }
