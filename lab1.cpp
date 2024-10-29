@@ -123,7 +123,7 @@ int main()
         cin >> list[i];
     }
 
-//    label:
+   label:
 
     cout << "what do you want" << endl;
     cout << "for search press 1\n for sort press" << endl;
