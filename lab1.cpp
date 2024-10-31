@@ -59,7 +59,7 @@ void bubble_sorting(int list[], int size_of_list){
             if (list[j] > list[j+1])
 
             { 
-                swap(list[j],list[j+1])
+                swap(list[j],list[j+1]);
                 }
         }
         
@@ -74,7 +74,7 @@ void simple_sorting(int list[], int size_of_list){
         for (int j = i + 1; j < size_of_list - 1; j++)
         {
             if(list[i]>list[j])
-            swap(list[i],list[j])
+            swap(list[i],list[j]);
         }
         
     }
@@ -102,13 +102,24 @@ void selection(int list[], int size){
         list[j] = list[i];
         list[i] = mnm;
     }
-    for (int i = 0; i < size; i++)
-    {
-       cout<<list[i]<<" ";
-    } 
+ 
 }
 
-
+void insertion_sorting(int list[], int size){
+    for (int i = 0; i < size; i++)
+    {
+        for (int j = i+1; j < size; j--)
+        {
+            if(list[j-1]>list[j]){
+                swap(list[j-1],list[j]);
+            }
+            else
+            break;
+        }
+        
+    }
+    
+}
 
 int main()
 {
@@ -126,25 +137,25 @@ int main()
    back_to_home:
 
     cout << "what do you want" << endl;
-    cout << "for search press 1\n for sort press" << endl;
+    cout << "for search press 1\n for sort press 2" << endl;
     cin >> choice;
     switch (choice)
     {
     case 1:
         cout << "by which method do you want" << endl;
-        cout << "for sequential press 1\n for simple press" << endl;
-        int choice1;
-        cin >> choice1;
-        switch (choice1)
+        cout << "for sequential press 1\n for simple press 2" << endl;
+        int searching_choice;
+        cin >> searching_choice;
+        switch (searching_choice)
         {
         case 1:
 
             cout << "enter the number you want search" << endl;
-            int key,i;
+            int key;
             cin >> key;
             int searchIndex = linear_search(list, key);
             check(searchIndex, key);
-            break;
+            // break;
         case 2:
             cout << "enter the number you want search" << endl;
             cin >> key;
@@ -162,13 +173,13 @@ int main()
         }
     case 2:
 
-        int choice2;
+        int sorting_choice;
         cout << "The values before sorting are: \n";
-        for(int i = 0; i < size; i++)
+        for(i = 0; i < size; i++)
             cout << list[i] << " ";
-        cout<<"by which method do you want sort data for simple press 1 or bubble press 2"<<endl;
-        cin>>choice2;
-        switch (choice2)
+        cout<<"by which method do you want sort data \nfor simple press 1 \n bubble press 2\ninsertion press 3\nselection press 4"<<endl;
+        cin>>sorting_choice;
+        switch (sorting_choice)
         {
         case 1:
             simple_sorting(list, size);
@@ -177,12 +188,15 @@ int main()
           bubble_sorting(list, size);
           break;
         case 3:
+          insertion_sorting(list, size);
+        case 4:
           goto back_to_home;
 
         default:
             cout<< "invaled input"<<endl;
             break;
         }
+
     case 3:
       return 0;
 
