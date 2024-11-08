@@ -35,7 +35,7 @@ void check(int i, int key) {
         cout << key << " found at index " << i << endl;
     }
 }
-// sorting
+// sorting type 
 // bubble sorting algorithm
 void bubble_sorting(int list[], int size_of_list) {
     for (int i = size_of_list - 1; i > 0; i--) {
@@ -46,7 +46,7 @@ void bubble_sorting(int list[], int size_of_list) {
         }
     }
 }
-// simple sorting
+// simple sorting 
 void simple_sorting(int list[], int size_of_list) {
     for (int i = 0; i < size_of_list - 1; i++) {
         for (int j = i + 1; j < size_of_list; j++) {
