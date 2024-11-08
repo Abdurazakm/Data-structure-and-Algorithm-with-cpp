@@ -1,7 +1,7 @@
 #include <iostream>
 #include <algorithm>
 using namespace std;
-
+// linear or squential search
 int linear_search(int list[], int key, int size) {
     int index = -1;
     for (int i = 0; i < size; i++) {
@@ -12,7 +12,7 @@ int linear_search(int list[], int key, int size) {
     }
     return index;
 }
-
+// binary search
 int binary_search(int list[], int key, int size) {
     int bottom = 0, top = size - 1, middle;
     while (bottom <= top) {
@@ -27,7 +27,7 @@ int binary_search(int list[], int key, int size) {
     }
     return -1;
 }
-
+// check if the search index found or not in the list
 void check(int i, int key) {
     if (i == -1) {
         cout << key << " is not found in the list" << endl;
@@ -35,7 +35,8 @@ void check(int i, int key) {
         cout << key << " found at index " << i << endl;
     }
 }
-
+// sorting
+// bubble sorting algorithm
 void bubble_sorting(int list[], int size_of_list) {
     for (int i = size_of_list - 1; i > 0; i--) {
         for (int j = 0; j < i; j++) {
@@ -45,7 +46,7 @@ void bubble_sorting(int list[], int size_of_list) {
         }
     }
 }
-
+// simple sorting
 void simple_sorting(int list[], int size_of_list) {
     for (int i = 0; i < size_of_list - 1; i++) {
         for (int j = i + 1; j < size_of_list; j++) {
@@ -55,7 +56,7 @@ void simple_sorting(int list[], int size_of_list) {
         }
     }
 }
-
+// selection sorting
 void selection_sort(int list[], int size) {
     for (int i = 0; i < size - 1; i++) {
         int minIndex = i;
@@ -67,7 +68,7 @@ void selection_sort(int list[], int size) {
         swap(list[i], list[minIndex]);
     }
 }
-
+// insertion sorting
 void insertion_sort(int list[], int size) {
     for (int i = 1; i < size; i++) {
         int key = list[i];
@@ -104,6 +105,7 @@ void binary_insertion_sort(int list[], int size) {
     }
 }
 
+// main function
 int main() {
     int i, size, choice;
     cout << "Enter the size of the data: ";
