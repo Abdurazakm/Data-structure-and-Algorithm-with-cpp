@@ -18,8 +18,8 @@ int main(){
                 index = j;
             }  
         }
-        j=index;
-        list[j] = list[i];
+        // j=index;
+        list[index] = list[i];
         list[i] = mnm;
     }
     for (int i = 0; i < 4; i++)
