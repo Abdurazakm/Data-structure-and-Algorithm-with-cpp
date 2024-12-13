@@ -2,121 +2,286 @@
 #include <cstring>
 using namespace std;
 
-struct student {
+// Structure for singly linked list
+struct SLLNode {
     char name[20];
     int age;
     char Dept[20];
-    student *next;
+    SLLNode *next;
 };
 
-student *start = NULL; // Initialize the start of the linked list to NULL
+// Structure for doubly linked list
+struct DLLNode {
+    char name[20];
+    int age;
+    char Dept[20];
+    DLLNode *prev;
+    DLLNode *next;
+};
 
-// Insert at the beginning
-void insert_beg(student *p) {
-    if (start == NULL) { // If the list is empty
-        start = p;
-        cout << "Node inserted at the beginning.\n";
+SLLNode *SLLstart = NULL; // Head of singly linked list
+DLLNode *DLLstart = NULL; // Head of doubly linked list
+
+// Singly Linked List Functions
+void SLL_insert_beg(SLLNode *p) {
+    if (SLLstart == NULL) {
+        SLLstart = p;
     } else {
-        p->next = start; // Make new node point to the current first node
-        start = p;       // Update start to the new node
-        cout << "Node inserted at the beginning.\n";
+        p->next = SLLstart;
+        SLLstart = p;
     }
+    cout << "Node inserted at the beginning (SLL).\n";
 }
 
-// Insert at the end
-void insert_end(student *p) {
-    if (start == NULL) { // If the list is empty
-        start = p;
-        cout << "Node inserted at the end.\n";
+void SLL_insert_end(SLLNode *p) {
+    if (SLLstart == NULL) {
+        SLLstart = p;
     } else {
-        student *current = start;
-        while (current->next != NULL) { // Traverse to the last node
+        SLLNode *current = SLLstart;
+        while (current->next != NULL) {
             current = current->next;
         }
-        current->next = p; // Make the last node point to the new node
-        cout << "Node inserted at the end.\n";
+        current->next = p;
     }
+    cout << "Node inserted at the end (SLL).\n";
 }
 
-// Insert after a specific position
-void insert_after(int position, student *p) {
-    student *q = start;
+void SLL_insert_after(int position, SLLNode *p) {
+    SLLNode *q = SLLstart;
     for (int i = 1; i < position && q != NULL; i++) {
         q = q->next;
     }
     if (q == NULL) {
         cout << "Less than " << position << " nodes in the list!\n";
     } else {
-        p->next = q->next; // Point new node to the next node after `q`
-        q->next = p;       // Point `q` to the new node
-        cout << "Node inserted successfully after position " << position << ".\n";
+        p->next = q->next;
+        q->next = p;
+        cout << "Node inserted successfully after position " << position << " (SLL).\n";
     }
 }
 
-// Display the list
-void display() {
-    student *current = start;
+void SLL_delete_beg() {
+    if (SLLstart == NULL) {
+        cout << "List is empty (SLL).\n";
+    } else {
+        SLLNode *temp = SLLstart;
+        SLLstart = SLLstart->next;
+        delete temp;
+        cout << "Node deleted from the beginning (SLL).\n";
+    }
+}
+
+void SLL_delete_end() {
+    if (SLLstart == NULL) {
+        cout << "List is empty (SLL).\n";
+    } else if (SLLstart->next == NULL) {
+        delete SLLstart;
+        SLLstart = NULL;
+        cout << "Node deleted from the end (SLL).\n";
+    } else {
+        SLLNode *current = SLLstart;
+        while (current->next->next != NULL) {
+            current = current->next;
+        }
+        delete current->next;
+        current->next = NULL;
+        cout << "Node deleted from the end (SLL).\n";
+    }
+}
+
+void SLL_display() {
+    SLLNode *current = SLLstart;
     if (current == NULL) {
-        cout << "List is empty.\n";
+        cout << "List is empty (SLL).\n";
+    } else {
+        cout << "Singly Linked List:\n";
+        while (current != NULL) {
+            cout << "Name: " << current->name << ", Age: " << current->age << ", Dept: " << current->Dept << "\n";
+            current = current->next;
+        }
+    }
+}
+
+// Doubly Linked List Functions
+void DLL_insert_beg(DLLNode *p) {
+    if (DLLstart == NULL) {
+        DLLstart = p;
+    } else {
+        p->next = DLLstart;
+        DLLstart->prev = p;
+        DLLstart = p;
+    }
+    cout << "Node inserted at the beginning (DLL).\n";
+}
+
+void DLL_insert_end(DLLNode *p) {
+    if (DLLstart == NULL) {
+        DLLstart = p;
+    } else {
+        DLLNode *current = DLLstart;
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        current->next = p;
+        p->prev = current;
+    }
+    cout << "Node inserted at the end (DLL).\n";
+}
+
+void DLL_display_forward() {
+    DLLNode *current = DLLstart;
+    if (current == NULL) {
+        cout << "List is empty (DLL).\n";
+    } else {
+        cout << "Doubly Linked List (Forward):\n";
+        while (current != NULL) {
+            cout << "Name: " << current->name << ", Age: " << current->age << ", Dept: " << current->Dept << "\n";
+            current = current->next;
+        }
+    }
+}
+
+void DLL_display_backward() {
+    DLLNode *current = DLLstart;
+    if (current == NULL) {
+        cout << "List is empty (DLL).\n";
         return;
     }
-    cout << "Student List:\n";
+    while (current->next != NULL) {
+        current = current->next;
+    }
+    cout << "Doubly Linked List (Backward):\n";
     while (current != NULL) {
         cout << "Name: " << current->name << ", Age: " << current->age << ", Dept: " << current->Dept << "\n";
-        current = current->next;
+        current = current->prev;
     }
 }
 
+// Main Function
 int main() {
     int choice;
     do {
-        // Create a new node for the student
-        student *p = new student;
-
-        // Input student details
-        cout << "Enter the name of the student:\n";
-        cin >> p->name;
-        cout << "Enter the age of the student:\n";
-        cin >> p->age;
-        cout << "Enter the department of the student:\n";
-        cin >> p->Dept;
-        p->next = NULL;
-
-        // Menu to choose the insertion type
-        cout << "Choose the insertion type:\n";
-        cout << "1. Insert at the beginning\n";
-        cout << "2. Insert at the end\n";
-        cout << "3. Insert after a specific position\n";
-        cout << "Enter your choice (1/2/3): ";
+        cout << "Choose an option:\n";
+        cout << "1. Singly Linked List Operations\n";
+        cout << "2. Doubly Linked List Operations\n";
+        cout << "3. Exit\n";
+        cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice) {
-            case 1:
-                insert_beg(p);
+            case 1: {
+                int sub_choice;
+                do {
+                    cout << "\nSingly Linked List Operations:\n";
+                    cout << "1. Insert at the beginning\n";
+                    cout << "2. Insert at the end\n";
+                    cout << "3. Insert after a position\n";
+                    cout << "4. Delete from the beginning\n";
+                    cout << "5. Delete from the end\n";
+                    cout << "6. Display list\n";
+                    cout << "7. Back to main menu\n";
+                    cout << "Enter your choice: ";
+                    cin >> sub_choice;
+
+                    switch (sub_choice) {
+                        case 1: {
+                            SLLNode *p = new SLLNode;
+                            cout << "Enter name, age, and department: ";
+                            cin >> p->name >> p->age >> p->Dept;
+                            p->next = NULL;
+                            SLL_insert_beg(p);
+                            break;
+                        }
+                        case 2: {
+                            SLLNode *p = new SLLNode;
+                            cout << "Enter name, age, and department: ";
+                            cin >> p->name >> p->age >> p->Dept;
+                            p->next = NULL;
+                            SLL_insert_end(p);
+                            break;
+                        }
+                        case 3: {
+                            SLLNode *p = new SLLNode;
+                            cout << "Enter name, age, and department: ";
+                            cin >> p->name >> p->age >> p->Dept;
+                            p->next = NULL;
+                            int position;
+                            cout << "Enter position: ";
+                            cin >> position;
+                            SLL_insert_after(position, p);
+                            break;
+                        }
+                        case 4:
+                            SLL_delete_beg();
+                            break;
+                        case 5:
+                            SLL_delete_end();
+                            break;
+                        case 6:
+                            SLL_display();
+                            break;
+                        case 7:
+                            break;
+                        default:
+                            cout << "Invalid choice! Try again.\n";
+                    }
+                } while (sub_choice != 7);
                 break;
-            case 2:
-                insert_end(p);
+            }
+
+            case 2: {
+                int sub_choice;
+                do {
+                    cout << "\nDoubly Linked List Operations:\n";
+                    cout << "1. Insert at the beginning\n";
+                    cout << "2. Insert at the end\n";
+                    cout << "3. Display forward\n";
+                    cout << "4. Display backward\n";
+                    cout << "5. Back to main menu\n";
+                    cout << "Enter your choice: ";
+                    cin >> sub_choice;
+
+                    switch (sub_choice) {
+                        case 1: {
+                            DLLNode *p = new DLLNode;
+                            cout << "Enter name, age, and department: ";
+                            cin >> p->name >> p->age >> p->Dept;
+                            p->prev = p->next = NULL;
+                            DLL_insert_beg(p);
+                            break;
+                        }
+                        case 2: {
+                            DLLNode *p = new DLLNode;
+                            cout << "Enter name, age, and department: ";
+                            cin >> p->name >> p->age >> p->Dept;
+                            p->prev = p->next = NULL;
+                            DLL_insert_end(p);
+                            break;
+                        }
+                        case 3:
+                            DLL_display_forward();
+                            break;
+                        case 4:
+                            DLL_display_backward();
+                            break;
+                        case 5:
+                            break;
+                        default:
+                            cout << "Invalid choice! Try again.\n";
+                    }
+                } while (sub_choice != 5);
                 break;
+            }
+
             case 3:
-                int position;
-                cout << "Enter the position after which to insert: ";
-                cin >> position;
-                insert_after(position, p);
+                cout << "Exiting program.\n";
                 break;
+
             default:
-                cout << "Invalid choice. Please enter 1, 2, or 3.\n";
-                delete p; // Clean up the node if no valid insertion
-                break;
+                cout << "Invalid choice! Try again.\n";
         }
+    } while (choice != 3);
 
-        cout << "\nCurrent List:\n";
-        display();
-
-        // Ask if the user wants to insert another node
-        cout << "\nDo you want to add another student? (1 for Yes / 0 for No): ";
-        cin >> choice;
-
-    } while (choice == 1);
-
-    return 0;
+        return 0;
 }
+
