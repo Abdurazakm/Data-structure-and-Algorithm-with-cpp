@@ -10,7 +10,7 @@ struct SLLNode {
     SLLNode *next;
 };
 
-// Structure for doubly linked list
+// Structure for doubly linked listaf
 struct DLLNode {
     char name[20];
     int age;
