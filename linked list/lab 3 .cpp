@@ -104,23 +104,30 @@ void SLL_display() {
 //backward traversy in  sll
 void backward_traversal(SLLNode* head){
     SLLNode *q = head;
-    while (q->next!=NULL)
-    {
-        q = q->next;
-    }
-    while (q!=head)
-    {
-        cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
-        SLLNode*temp = head;
-        while (temp->next != q)
-        {
-            temp = temp->next;
+    // Backward traversal is not supported for singly linked lists.
+    // while (q->next!=NULL)
+    // {
+    //     q = q->next;
+    // }
+    // while (q!=head)
+    // {
+    //     cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
+    //     SLLNode*temp = head;
+    //     while (temp->next != q)
+    //     {
+    //         temp = temp->next;
     
-        }
-        q = temp;
+    //     }
+    //     q = temp;
         
+    // }
+    // cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
+    if(head == NULL){
+        return;
     }
+    backward_traversal(head->next);
     cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
+
     
     
 }
@@ -248,7 +255,7 @@ int main() {
                             break;
                         case 8:
                             backward_traversal(SLLstart);
-
+                            break;
                         default:
                             cout << "Invalid choice! Try again.\n";
                     }
