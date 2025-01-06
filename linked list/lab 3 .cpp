@@ -101,6 +101,29 @@ void SLL_display() {
         }
     }
 }
+//backward traversy in  sll
+void backward_traversal(SLLNode* head){
+    SLLNode *q = head;
+    while (q->next!=NULL)
+    {
+        q = q->next;
+    }
+    while (q!=head)
+    {
+        cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
+        SLLNode*temp = head;
+        while (temp->next != q)
+        {
+            temp = temp->next;
+    
+        }
+        q = temp;
+        
+    }
+    cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
+    
+    
+}
 
 // Doubly Linked List Functions
 void DLL_insert_beg(DLLNode *p) {
@@ -180,6 +203,7 @@ int main() {
                     cout << "5. Delete from the end\n";
                     cout << "6. Display list\n";
                     cout << "7. Back to main menu\n";
+                    cout << "8. Backward traverse\n";
                     cout << "Enter your choice: ";
                     cin >> sub_choice;
 
@@ -222,6 +246,9 @@ int main() {
                             break;
                         case 7:
                             break;
+                        case 8:
+                            backward_traversal(SLLstart);
+
                         default:
                             cout << "Invalid choice! Try again.\n";
                     }
