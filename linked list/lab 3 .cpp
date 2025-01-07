@@ -102,35 +102,44 @@ void SLL_display() {
     }
 }
 //backward traversy in  sll
-void backward_traversal(SLLNode* head){
-    SLLNode *q = head;
-    // Backward traversal is not supported for singly linked lists.
-    // while (q->next!=NULL)
-    // {
-    //     q = q->next;
-    // }
-    // while (q!=head)
-    // {
-    //     cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
-    //     SLLNode*temp = head;
-    //     while (temp->next != q)
-    //     {
-    //         temp = temp->next;
+// void backward_traversal(SLLNode* head){
+//     // SLLNode *q = head;
+//     // Backward traversal is not supported for singly linked lists.
+//     // while (q->next!=NULL)
+//     // {
+//     //     q = q->next;
+//     // }
+//     // while (q!=head)
+//     // {
+//     //     cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
+//     //     SLLNode*temp = head;
+//     //     while (temp->next != q)
+//     //     {
+//     //         temp = temp->next;
     
-    //     }
-    //     q = temp;
+//     //     }
+//     //     q = temp;
         
-    // }
-    // cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
-    if(head == NULL){
-        return;
-    }
-    backward_traversal(head->next);
-    cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
+//     // }
+//     // cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
+//     if(head == NULL){
+//         return;
+//     }
+//     backward_traversal(head->next);
+//     cout<<"name: "<<q->name<<"\nage: "<<q->age<<"\ndepartment: "<<q->Dept;
 
     
     
-}
+// }
+// void backward_traversal(SLLNode* head) {
+//     if (head == NULL) {
+//         return; // Base case: End of list
+//     }
+//     backward_traversal(head->next); // Recursive call to the next node
+//     // Process the current node during stack unwinding
+//     cout << "Name: " << head->name << ", Age: " << head->age << ", Department: " << head->Dept << "\n";
+// }
+
 
 // Doubly Linked List Functions
 void DLL_insert_beg(DLLNode *p) {
@@ -156,6 +165,21 @@ void DLL_insert_end(DLLNode *p) {
         p->prev = current;
     }
     cout << "Node inserted at the end (DLL).\n";
+}
+//deleting node by using double link list
+//detete the fist node
+void delete_from_beg(){
+    DLLNode *current = DLLstart;
+    if ( DLLstart = nullptr)
+    {
+        cout<<"the node is empty\n";
+    }else {
+        DLLstart = current->next;
+        DLLstart->prev = nullptr;
+        delete current;
+    }
+    
+    
 }
 
 void DLL_display_forward() {
@@ -210,7 +234,7 @@ int main() {
                     cout << "5. Delete from the end\n";
                     cout << "6. Display list\n";
                     cout << "7. Back to main menu\n";
-                    cout << "8. Backward traverse\n";
+                    // cout << "8. Backward traverse\n";
                     cout << "Enter your choice: ";
                     cin >> sub_choice;
 
@@ -253,9 +277,9 @@ int main() {
                             break;
                         case 7:
                             break;
-                        case 8:
-                            backward_traversal(SLLstart);
-                            break;
+                        // case 8:
+                        //     backward_traversal(SLLstart);
+                        //     break;
                         default:
                             cout << "Invalid choice! Try again.\n";
                     }
@@ -272,6 +296,9 @@ int main() {
                     cout << "3. Display forward\n";
                     cout << "4. Display backward\n";
                     cout << "5. Back to main menu\n";
+                    cout << "6. Delete at the beginning\n";
+                    cout << "7. Delete at the end\n";
+                    cout << "8. Delete at some in the middle\n";
                     cout << "Enter your choice: ";
                     cin >> sub_choice;
 
@@ -300,6 +327,8 @@ int main() {
                             break;
                         case 5:
                             break;
+                        case 6:
+                            delete_from_beg();
                         default:
                             cout << "Invalid choice! Try again.\n";
                     }
