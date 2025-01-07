@@ -181,6 +181,18 @@ void delete_from_beg(){
     
     
 }
+void delete_somewhere_at_the_meddile(int pos){
+    DLLNode* current = DLLstart;
+    for (int i = 1; i < pos - 1; i++)
+    {
+        current = current->next;
+    }
+    DLLNode* deleteNode = current->next;
+    current->next = deleteNode->next;
+    deleteNode->next->prev = current;
+    delete deleteNode;
+    
+}
 
 void DLL_display_forward() {
     DLLNode *current = DLLstart;
