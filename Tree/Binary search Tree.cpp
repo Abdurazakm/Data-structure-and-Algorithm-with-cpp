@@ -8,10 +8,20 @@ struct BinarySearchTree {
     BinarySearchTree* right;         // Pointer to the right child
 };
 
+// Function to create a new node with a given value
+BinarySearchTree* CreateNode(int value) {
+    BinarySearchTree* newNode = new BinarySearchTree(); // Allocate memory for the new node
+    newNode->data = value;          // Set the data value
+    newNode->left = nullptr;        // Initialize left child as null
+    newNode->right = nullptr;       // Initialize right child as null
+    return newNode;
+}
+
 // Function to insert a new node into the BST
 void insertBST(BinarySearchTree*& RNP, BinarySearchTree* NNP) {
     int inserted = 0;               // Flag to check if the node is inserted
     BinarySearchTree* temp = RNP;   // Temporary pointer to traverse the tree
+
     if (RNP == nullptr) {           // If the tree is empty
         RNP = NNP;                  // Make the new node the root
     } else {
@@ -35,87 +45,117 @@ void insertBST(BinarySearchTree*& RNP, BinarySearchTree* NNP) {
     }
 }
 
-// Function to create a new node with a given value
-BinarySearchTree* CreateNode(int value) {
-    BinarySearchTree* newNode = new BinarySearchTree();
-    newNode->data = value;          // Set the data value
-    newNode->left = nullptr;        // Initialize left child as null
-    newNode->right = nullptr;       // Initialize right child as null
-    return newNode;
-}
-
-// In-order traversal: Left -> Root -> Right (to display the BST in sorted order)
-void inOrderTraversal(BinarySearchTree* rootptr) {
-    if (rootptr != nullptr) {
-        inOrderTraversal(rootptr->left);   // Visit left subtree
-        cout << rootptr->data << " ";      // Print root data
-        inOrderTraversal(rootptr->right);  // Visit right subtree
+// Function to find the minimum value node in a subtree
+BinarySearchTree* findMin(BinarySearchTree* root) {
+    while (root && root->left != nullptr) {
+        root = root->left;          // Traverse to the leftmost node
     }
+    return root;
 }
 
-// Function to delete a node with a given value in the BST
-void deleteBST(BinarySearchTree* RNP, BinarySearchTree* PDNP, int x) {
-    // RNP: Current node being checked
-    // PDNP: Parent of the current node
-    // x: The value to delete
+// Replacing the `deleteBST` function with the recursive `deleteNode` function
+BinarySearchTree* deleteNode(BinarySearchTree* root, int key) {
+    if (root == nullptr) {
+        return root;                // Base case: Tree is empty or key not found
+    }
 
-    BinarySearchTree* DNP; // Pointer to the node to be deleted
-
-    if (RNP == nullptr) {
-        // Base case: Node not found
-        cout << "Data Not Found" << endl;
-    } else if (RNP->data > x) {
-        // Value is smaller; search in the left subtree
-        deleteBST(RNP->left, RNP, x);
-    } else if (RNP->data < x) {
-        // Value is larger; search in the right subtree
-        deleteBST(RNP->right, RNP, x);
+    // Traverse the tree to find the node to delete
+    if (key < root->data) {
+        root->left = deleteNode(root->left, key);   // Search in the left subtree
+    } else if (key > root->data) {
+        root->right = deleteNode(root->right, key); // Search in the right subtree
     } else {
-        // Node to delete found (RNP->data == x)
-        DNP = RNP;
-
-        if (DNP->left == nullptr && DNP->right == nullptr) {
-            // Case 1: Node is a leaf (no children)
-            if (PDNP == nullptr) {
-                RNP = nullptr; // Root node case
-            } else if (PDNP->left == DNP) {
-                PDNP->left = nullptr; // Unlink the node
-            } else {
-                PDNP->right = nullptr; // Unlink the node
-            }
-            delete DNP; // Free memory
-        } else if (DNP->left != nullptr) {
-            // Case 2: Node has a left child
-            PDNP = DNP;
-            DNP = DNP->left;
-
-            // Find the rightmost node in the left subtree (predecessor)
-            while (DNP->right != nullptr) {
-                PDNP = DNP;
-                DNP = DNP->right;
-            }
-
-            // Replace value and recursively delete the predecessor
-            RNP->data = DNP->data;
-            deleteBST(DNP, PDNP, DNP->data);
-        } else {
-            // Case 3: Node has a right child
-            PDNP = DNP;
-            DNP = DNP->right;
-
-            // Find the leftmost node in the right subtree (successor)
-            while (DNP->left != nullptr) {
-                PDNP = DNP;
-                DNP = DNP->left;
-            }
-
-            // Replace value and recursively delete the successor
-            RNP->data = DNP->data;
-            deleteBST(DNP, PDNP, DNP->data);
+        // Node found
+        // Case 1: No child
+        if (root->left == nullptr && root->right == nullptr) {
+            delete root;            // Delete the node
+            return nullptr;
+        }
+        // Case 2: One child
+        else if (root->left == nullptr) {
+            BinarySearchTree* temp = root->right;
+            delete root;
+            return temp;
+        } else if (root->right == nullptr) {
+            BinarySearchTree* temp = root->left;
+            delete root;
+            return temp;
+        }
+        // Case 3: Two children
+        else {
+            BinarySearchTree* temp = findMin(root->right); // Find inorder successor
+            root->data = temp->data;                      // Replace data with successor's data
+            root->right = deleteNode(root->right, temp->data); // Delete the successor
         }
     }
+    return root;
 }
 
+// Function to perform preorder traversal (Root -> Left -> Right)
+void preorder(BinarySearchTree* rootptr) {
+    if (rootptr != nullptr) {
+        cout << rootptr->data << " ";    // Visit the root
+        preorder(rootptr->left);         // Traverse the left subtree
+        preorder(rootptr->right);        // Traverse the right subtree
+    }
+}
+
+// Function to perform in-order traversal (Left -> Root -> Right)
+void inOrderTraversal(BinarySearchTree* rootptr) {
+    if (rootptr != nullptr) {
+        inOrderTraversal(rootptr->left);   // Visit the left subtree
+        cout << rootptr->data << " ";      // Print root data
+        inOrderTraversal(rootptr->right);  // Visit the right subtree
+    }
+}
+
+// Function to perform postorder traversal (Left -> Right -> Root)
+void postorder(BinarySearchTree* rootptr) {
+    if (rootptr != nullptr) {
+        postorder(rootptr->left);         // Traverse the left subtree
+        postorder(rootptr->right);        // Traverse the right subtree
+        cout << rootptr->data << " ";     // Visit the root
+    }
+}
+
+// Function to search for a key in the BST
+BinarySearchTree* searchingInBT(BinarySearchTree* rootptr, int key) {
+    while (rootptr != nullptr) {
+        if (rootptr->data == key) {
+            // Found the key
+            return rootptr;
+        } else if (rootptr->data > key) {
+            rootptr = rootptr->left; // Move to the left subtree
+        } else {
+            rootptr = rootptr->right; // Move to the right subtree
+        }
+    }
+    return nullptr; // Key not found
+}
+
+// Function to find the maximum value in the BST
+int FindMax(BinarySearchTree* rootptr) {
+    if (rootptr == nullptr) {
+        return -1; // Tree is empty
+    } else if (rootptr->right == nullptr) {
+        return rootptr->data; // Rightmost node found
+    } else {
+        return FindMax(rootptr->right); // Recur to the right subtree
+    }
+}
+
+// Function to find the minimum value in the BST
+int FindMinValue(BinarySearchTree* rootptr) {
+    if (rootptr == nullptr) {
+        return -1; // Tree is empty
+    } else if (rootptr->left == nullptr) {
+        return rootptr->data; // Leftmost node found
+    } else {
+        return FindMinValue(rootptr->left); // Recur to the left subtree
+    }
+}
+
+// Main function
 int main() {
     // Create and insert nodes into the BST
     BinarySearchTree* rootptr = nullptr;
@@ -132,7 +172,7 @@ int main() {
 
     // Delete a node (e.g., 10)
     cout << "Deleting node 10..." << endl;
-    deleteBST(rootptr, nullptr, 10);
+    rootptr = deleteNode(rootptr, 10);
 
     // Display the BST in sorted order (after deletion)
     cout << "In-order Traversal After Deletion: ";
